@@ -6,22 +6,23 @@
   <title>Universidad Mayor de San Andrés</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
-    header { background: #004080; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
+    header { background: #002b5c; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
     h1 { margin: 0; font-size: 20px; }
     h2 { margin-top: 30px; }
     .login, .panel, .section { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 5px; }
     input[type="text"], input[type="password"] { width: 100%; padding: 10px; margin: 10px 0; }
-    button { padding: 10px 15px; background: #004080; color: white; border: none; cursor: pointer; }
+    button { padding: 10px 15px; background: #002b5c; color: white; border: none; cursor: pointer; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
     .info { margin-bottom: 10px; }
+    #descargarBtn { margin-top: 10px; }
   </style>
 </head>
 <body>
   <header>
     <div>
       <h1>Universidad Mayor de San Andrés</h1>
-      <small>umsa</small>
+      <small style="text-transform: uppercase;">UMSA</small>
     </div>
     <div>
       <strong>Prefacultativo - Carrera Informática</strong>
@@ -46,6 +47,7 @@
       <h3>Boleta de Inscripción</h3>
       <input type="file" id="boletaInput" accept="image/*" onchange="guardarBoleta()">
       <div id="boletaPreview"></div>
+      <button id="descargarBtn" onclick="descargarPDF()">Descargar en PDF</button>
     </div>
 
     <div class="section">
@@ -66,6 +68,7 @@
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     function login() {
       const u = document.getElementById("user").value;
@@ -92,8 +95,23 @@
     function mostrarBoleta() {
       const src = localStorage.getItem("boleta");
       if (src) {
-        document.getElementById("boletaPreview").innerHTML = `<img src="${src}" style="max-width:100%;margin-top:10px;">`;
+        document.getElementById("boletaPreview").innerHTML = `<img id="boletaImg" src="${src}" style="max-width:100%;margin-top:10px;">`;
       }
+    }
+
+    async function descargarPDF() {
+      const { jsPDF } = window.jspdf;
+      const img = document.getElementById("boletaImg");
+      if (!img) return alert("No hay imagen para descargar.");
+      const pdf = new jsPDF();
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+      const imgData = canvas.toDataURL("image/jpeg");
+      pdf.addImage(imgData, "JPEG", 10, 10, 190, 0);
+      pdf.save("boleta_inscripcion.pdf");
     }
   </script>
 </body>
