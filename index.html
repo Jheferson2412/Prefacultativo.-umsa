@@ -1,23 +1,22 @@
 
 <!DOCTYPE html>
-<html lang="es" style="min-width: 1000px;">
+<html lang="es">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.2">
   <meta charset="UTF-8">
   <title>Preuniversitario UMSA - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.2">
   <style>
     body { font-family: Arial; background: #f5f5f5; margin: 0; padding: 40px; }
-    .container { max-width: 900px; margin: 100px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    input[type='text'], input[type='password'] { width: 100%; padding: 10px; margin: 10px 0; }
+    .container { max-width: 600px; margin: 40px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input[type='text'], input[type='password'], input[type='file'] { width: 100%; padding: 10px; margin: 10px 0; }
     button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; }
     .hidden { display: none; }
     .nav-btn { margin: 5px; padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
     .tab-section { margin-top: 20px; }
-    table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+    table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; width: 100%; }
     .nota-final { color: red; font-weight: bold; }
   </style>
 </head>
-
 <body>
 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; background: #004080; color: white;">
   <div>
@@ -26,7 +25,6 @@
   </div>
   <div style="font-size: 1.2em;">Preuniversitario Informática</div>
 </div>
-
 
 <div class="container" id="login-container">
   <h2>Iniciar Sesión</h2>
@@ -50,12 +48,12 @@
     <p>Paralelo: F</p>
     <label>Subir Foto:</label>
     <input type="file" accept="image/*" onchange="guardarImagen(event, 'fotoPerfil')"><br><br>
-    <img id="fotoPerfil" src="" alt="Foto de perfil" style="max-width:100%;">
+    <img id="fotoPerfil" src="" alt="Foto de perfil" style="max-width:120px; height:auto; border:1px solid #ccc;">
   </div>
 
   <div id="postulaciones" class="tab-section hidden">
     <h3>Mis Postulaciones</h3>
-    <table style="width:100%;">
+    <table>
       <tr><th>ID</th><th>Fecha</th><th>CPT</th><th>Facultad</th><th>Carrera</th><th>Paralelo</th><th>Acciones</th></tr>
       <tr>
         <td>225240</td><td>11/03/2025</td><td>888504</td><td>Ciencias Puras y Naturales</td><td>Informática</td><td>F</td>
@@ -69,19 +67,19 @@
 
   <div id="asignaturas" class="tab-section hidden">
     <h3>Asignaturas</h3>
-    <table style="width:100%;">
+    <table>
       <tr><th>Asignatura</th><th>Docente</th><th>Notas</th></tr>
       <tr>
         <td>Introducción a la Informática</td><td>M.SC. ENRIQUEZ RALDE EDGAR RUFO</td>
-        <td>Prácticas: 10<br>1er Parcial: 12<br>2do Parcial: 13<br>Examen Final: 15<br><span class="nota-final" style="color:green;">56</span></td>
+        <td>Prácticas: 15<br>1er Parcial: 16<br>2do Parcial: 17<br>Examen Final: 17<br><span class="nota-final" style="color:green;">65</span></td>
       </tr>
       <tr>
         <td>Introducción a la Computación</td><td>PH.D. MAMANI CHAVEZ HENRY</td>
-        <td>Prácticas: 14<br>1er Parcial: 10<br>2do Parcial: 11<br>Examen Final: 13<br><span class="nota-final">50</span></td>
+        <td>Prácticas: 13<br>1er Parcial: 14<br>2do Parcial: 12<br>Examen Final: 14<br><span class="nota-final">53</span></td>
       </tr>
       <tr>
         <td>Introducción a la Matemática</td><td>PH.D. VALERO KARI ELVIS RONALD</td>
-        <td>Prácticas: 12<br>1er Parcial: 8<br>2do Parcial: 10<br>Examen Final: 13<br><span class="nota-final">46</span></td>
+        <td>Prácticas: 11<br>1er Parcial: 12<br>2do Parcial: 10<br>Examen Final: 15<br><span class="nota-final">48</span></td>
       </tr>
     </table>
   </div>
@@ -90,7 +88,7 @@
     <h3>Boleta</h3>
     <label>Subir imagen de boleta:</label>
     <input type="file" accept="image/*" onchange="guardarImagen(event, 'imagenBoleta')"><br><br>
-    <img id="imagenBoleta" src="" alt="Imagen boleta" style="max-width:100%;">
+    <img id="imagenBoleta" src="" alt="Imagen boleta" style="max-width:100%; border:1px solid #ccc;">
   </div>
 </div>
 
@@ -107,16 +105,15 @@ function login() {
 }
 
 function mostrarSeccion(id) {
-  document.querySelectorAll('.tab-section').forEach(sec => sec.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
 }
 
-function guardarImagen(event, idElemento) {
+function guardarImagen(event, imgId) {
   const reader = new FileReader();
   reader.onload = function() {
-    const img = document.getElementById(idElemento);
-    img.src = reader.result;
-    localStorage.setItem(idElemento, reader.result);
+    localStorage.setItem(imgId, reader.result);
+    document.getElementById(imgId).src = reader.result;
   }
   reader.readAsDataURL(event.target.files[0]);
 }
