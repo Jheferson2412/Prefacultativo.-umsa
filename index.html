@@ -3,92 +3,121 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Panel Preuniversitario</title>
+  <title>Preuniversitario UMSA - Login</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f2f2f2; }
-    .tabla, .tabla th, .tabla td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
-    .tabla { width: 100%; background: white; }
-    .btn { padding: 5px 10px; margin: 2px; border: none; border-radius: 4px; cursor: pointer; }
-    .btn-verde { background: #28a745; color: white; }
-    .btn-azul { background: #007bff; color: white; }
-    .btn-rojo { background: #dc3545; color: white; }
-    .titulo { font-weight: bold; margin-top: 20px; }
+    body { font-family: Arial; background: #f5f5f5; margin: 0; padding: 20px; }
+    .container { max-width: 400px; margin: 100px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input[type='text'], input[type='password'] { width: 100%; padding: 10px; margin: 10px 0; }
+    button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; }
+    .hidden { display: none; }
+    .nav-btn { margin: 5px; padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .tab-section { margin-top: 20px; }
+    table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
     .nota-final { color: red; font-weight: bold; }
-    input[readonly] { background: #e9e9e9; }
   </style>
 </head>
 <body>
 
-<h2>CI: 9153527 Tiene las Siguientes Postulaciones</h2>
-<table class="tabla">
-  <tr><th>Recaud.</th><th>Id.Preuniv</th><th>Fecha</th><th>CPT</th><th>Facultad</th><th>Carrera/Programa</th><th>Paralelo</th><th>Acciones</th></tr>
-  <tr>
-    <td>3691</td><td>225240</td><td>11/03/2025</td><td>888504</td>
-    <td>CIENCIAS PURAS Y NATURALES</td><td>INFORMÁTICA</td><td>F</td>
-    <td>
-      <button class="btn btn-verde">ASIGNATURAS</button>
-      <button class="btn btn-azul">BOLETA</button>
-    </td>
-  </tr>
-</table>
+<div class="container" id="login-container">
+  <h2>Iniciar Sesión</h2>
+  <input type="text" id="ci" placeholder="Carnet de identidad">
+  <input type="password" id="password" placeholder="Contraseña">
+  <button onclick="login()">Entrar</button>
+</div>
 
-<div class="titulo">Asignaturas Preuniversitario</div>
+<div class="container hidden" id="main-container">
+  <h2>Bienvenido, Andres Jheferson</h2>
+  <button class="nav-btn" onclick="mostrarSeccion('datos')">Datos Personales</button>
+  <button class="nav-btn" onclick="mostrarSeccion('postulaciones')">Mis Postulaciones</button>
 
-<!-- Materia 1 -->
-<h4>Introducción a la Informática - M.SC. ENRIQUEZ RALDE EDGAR RUFO</h4>
-<table class="tabla">
-  <tr><th>N° Lista</th><th>ID</th><th>CI</th><th>Evaluación</th><th>Notas</th></tr>
-  <tr>
-    <td>8</td><td>225240</td><td>9153527</td>
-    <td>
-      Prácticas<br>1er Parcial<br>2do Parcial<br>Examen Final<br>Nota Final
-    </td>
-    <td>
-      10<br>12<br>15<br>8<br><span class="nota-final">45</span>
-    </td>
-  </tr>
-</table>
+  <div id="datos" class="tab-section hidden">
+    <h3>Datos Personales</h3>
+    <p>Nombre: Andres Jheferson Amoraga Soliz</p>
+    <p>CI: 9153527</p>
+    <p>Carrera: Informática</p>
+    <p>Facultad: Ciencias Puras y Naturales</p>
+    <p>Fecha de inscripción: 11/03/2025</p>
+    <p>Paralelo: F</p>
+    <label>Subir Foto:</label>
+    <input type="file" accept="image/*" onchange="guardarImagen(event, 'fotoPerfil')"><br><br>
+    <img id="fotoPerfil" src="" alt="Foto de perfil" style="max-width:100%;">
+  </div>
 
-<!-- Materia 2 -->
-<h4>Introducción a la Computación - PH.D. MAMANI CHAVEZ HENRY</h4>
-<table class="tabla">
-  <tr><th>N° Lista</th><th>ID</th><th>CI</th><th>Evaluación</th><th>Notas</th></tr>
-  <tr>
-    <td>8</td><td>225240</td><td>9153527</td>
-    <td>
-      Prácticas<br>1er Parcial<br>2do Parcial<br>Examen Final<br>Nota Final
-    </td>
-    <td>
-      14<br>10<br>11<br>13<br><span class="nota-final">48</span>
-    </td>
-  </tr>
-</table>
+  <div id="postulaciones" class="tab-section hidden">
+    <h3>Mis Postulaciones</h3>
+    <table style="width:100%;">
+      <tr><th>ID</th><th>Fecha</th><th>CPT</th><th>Facultad</th><th>Carrera</th><th>Paralelo</th><th>Acciones</th></tr>
+      <tr>
+        <td>225240</td><td>11/03/2025</td><td>888504</td><td>Ciencias Puras y Naturales</td><td>Informática</td><td>F</td>
+        <td>
+          <button onclick="mostrarSeccion('asignaturas')">Asignaturas</button>
+          <button onclick="mostrarSeccion('boleta')">Boleta</button>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-<!-- Materia 3 -->
-<h4>Introducción a la Matemática - PH.D. VALERO KARI ELVIS RONALD</h4>
-<table class="tabla">
-  <tr><th>N° Lista</th><th>ID</th><th>CI</th><th>Evaluación</th><th>Notas</th></tr>
-  <tr>
-    <td>8</td><td>225240</td><td>9153527</td>
-    <td>
-      Prácticas<br>1er Parcial<br>2do Parcial<br>Examen Final<br>Nota Final
-    </td>
-    <td>
-      12<br>8<br>10<br>13<br><span class="nota-final">43</span>
-    </td>
-  </tr>
-</table>
+  <div id="asignaturas" class="tab-section hidden">
+    <h3>Asignaturas</h3>
+    <table style="width:100%;">
+      <tr><th>Asignatura</th><th>Docente</th><th>Notas</th></tr>
+      <tr>
+        <td>Introducción a la Informática</td><td>M.SC. ENRIQUEZ RALDE EDGAR RUFO</td>
+        <td>Prácticas: 10<br>1er Parcial: 12<br>2do Parcial: 13<br>Examen Final: 15<br><span class="nota-final">50</span></td>
+      </tr>
+      <tr>
+        <td>Introducción a la Computación</td><td>PH.D. MAMANI CHAVEZ HENRY</td>
+        <td>Prácticas: 14<br>1er Parcial: 10<br>2do Parcial: 11<br>Examen Final: 13<br><span class="nota-final">48</span></td>
+      </tr>
+      <tr>
+        <td>Introducción a la Matemática</td><td>PH.D. VALERO KARI ELVIS RONALD</td>
+        <td>Prácticas: 12<br>1er Parcial: 8<br>2do Parcial: 10<br>Examen Final: 13<br><span class="nota-final">43</span></td>
+      </tr>
+    </table>
+  </div>
 
-<div class="titulo">Datos Personales</div>
-<form>
-  Nombre completo: <input type="text" value="Andres Jheferson Amoraga Soliz" readonly><br>
-  Carnet: <input type="text" value="9153527" readonly><br>
-  Carrera: <input type="text" value="Informática" readonly><br>
-  Facultad: <input type="text" value="Ciencias Puras y Naturales" readonly><br>
-  Fecha de inscripción: <input type="text" value="11/03/2025" readonly><br>
-  Paralelo: <input type="text" value="F" readonly><br>
-  Foto: <input type="file" disabled>
-</form>
+  <div id="boleta" class="tab-section hidden">
+    <h3>Boleta</h3>
+    <label>Subir imagen de boleta:</label>
+    <input type="file" accept="image/*" onchange="guardarImagen(event, 'imagenBoleta')"><br><br>
+    <img id="imagenBoleta" src="" alt="Imagen boleta" style="max-width:100%;">
+  </div>
+</div>
+
+<script>
+function login() {
+  const ci = document.getElementById("ci").value;
+  const pass = document.getElementById("password").value;
+  if (ci === "9153527" && pass === "Cosmodragokit_1") {
+    document.getElementById("login-container").classList.add("hidden");
+    document.getElementById("main-container").classList.remove("hidden");
+  } else {
+    alert("Credenciales incorrectas");
+  }
+}
+
+function mostrarSeccion(id) {
+  document.querySelectorAll('.tab-section').forEach(sec => sec.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function guardarImagen(event, idElemento) {
+  const reader = new FileReader();
+  reader.onload = function() {
+    const img = document.getElementById(idElemento);
+    img.src = reader.result;
+    localStorage.setItem(idElemento, reader.result);
+  }
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+window.onload = function() {
+  ["fotoPerfil", "imagenBoleta"].forEach(id => {
+    const data = localStorage.getItem(id);
+    if (data) document.getElementById(id).src = data;
+  });
+}
+</script>
 
 </body>
 </html>
